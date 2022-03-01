@@ -140,12 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="config_sdl.cpp" />
-    <ClCompile Include="Fct.cpp" />
+    <ClCompile Include="class.cpp" />
+    <ClCompile Include="fonction.cpp" />
+    <ClCompile Include="fonction.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="color.h" />
-    <ClInclude Include="Fct.h" />
+    <ClInclude Include="class.h" />
     <ClInclude Include="config_sdl.h" />
   </ItemGroup>
   <ItemGroup>

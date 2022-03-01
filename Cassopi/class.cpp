@@ -4,7 +4,8 @@
 #include<SDL.h> //ne pas oublier
 #include<SDL_ttf.h> //ne pas oublier
 #include <fstream>
-#include "Fct.h"
+#include "class.h"
+#include "color.h"
 using namespace std;
 
 Palette::Palette() {
@@ -12,7 +13,8 @@ Palette::Palette() {
 	char recup[20];
 	ifstream reader("default_color.txt", ios::in);
 	if (!reader) {
-		cout << "erreur ouverture du fichier couleur" << endl;
+		cout << RED << "erreur ouverture du fichier couleur" << endl;
+		return;
 	}
 	reader.getline(recup, 20);
 	colorCount = atoi(recup);
@@ -27,7 +29,6 @@ Palette::Palette() {
 		colorTable.push_back(tmp);
 	}
 	reader.close();
-
 }
 
 Palette::Palette(const string& colorFile) {
@@ -35,7 +36,8 @@ Palette::Palette(const string& colorFile) {
 	char recup[20];
 	ifstream reader(colorFile, ios::in);
 	if (!reader) {
-		cout << "erreur ouverture du fichier couleur" << endl;
+		cout << RED << "erreur ouverture du fichier couleur" << endl;
+		return;
 	}
 	reader.getline(recup, 20);
 	colorCount = atoi(recup);
@@ -73,7 +75,14 @@ void Palette::setNewColor(Uint8 rouge, Uint8 vert, Uint8 bleu) {
 
 void Palette::paletteSave(const string& colorFile) {
 	ofstream save(colorFile, ios::out);
-
+	if (!save) {
+		cout << RED << "Erreur sauvegarde impossible" << endl;
+		return;
+	}
+	save << colorCount << '\n';
+	for (vector<SDL_Color>::const_iterator it = colorTable.begin(); it < colorTable.end(); ++it) {
+		save << (int) it->r << "," << (int) it->g << "," << (int) it->b << ";";
+	}
 }
 
 const SDL_Color* Pixel::getPixelColor() const {

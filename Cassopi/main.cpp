@@ -1,14 +1,15 @@
 #include<SDL.h> //ne pas oublier
 #include<SDL_ttf.h> //ne pas oublier
 #include <iostream>
-#include "Fct.h"
+#include "class.h"
 #include "color.h"
 #include "config_sdl.h"
+#include "fonction.h"
 
 using namespace std;
 
-const int LARGEUR = 800; //largeur fenetre
-const int HAUTEUR = 500;  //hauteur fenetre
+const int LARGEUR = 1800; //largeur fenetre
+const int HAUTEUR = 950;  //hauteur fenetre
 
 int main(int argn, char* argv[]) {//entête imposée
 								  //ouverture de la SDL
@@ -23,7 +24,7 @@ int main(int argn, char* argv[]) {//entête imposée
 		SDL_WINDOWPOS_CENTERED,     //pos. Y: autre option: SDL_WINDOWPOS_UNDEFINED 
 		LARGEUR, 			//largeur en pixels			
 		HAUTEUR, 			//hauteur en pixels
-		SDL_WINDOW_SHOWN //d’autres options (plein ecran, resizable, sans bordure...)
+		SDL_WINDOW_SHOWN//d’autres options (plein ecran, resizable, sans bordure...)
 	);
 	if (win == NULL)
 		cout << "erreur ouverture fenetre";
@@ -38,15 +39,8 @@ int main(int argn, char* argv[]) {//entête imposée
 	SDL_Rect r = { 0,0,30,30 };
 	SDL_Color t;
 	test.setNewColor(170, 70, 130);
-	for (int i = 0; i < test.getPaletteColorNumber(); i++) {
-		t = *test.getPalette(i);
-		SDL_SetRenderDrawColor(rendu, t.r, t.g, t.b, t.a);
-		r.x = r.x + r.w;
-		SDL_RenderFillRect(rendu, &r);
-		SDL_RenderPresent(rendu);
-	}
-
-
+	SDL_RenderClear(rendu);
+	toolInterface(rendu);
 
 	bool continuer = true;   //booléen fin de programme
 	SDL_Event event;//gestion des évènements souris/clavier, 
