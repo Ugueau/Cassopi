@@ -37,4 +37,15 @@ public :
 };
 
 
-
+//class Sheet {
+//private:
+//	vector<Pixel> grid;
+//public:
+//	Sheet();
+//	Sheet(int size);
+//	//Sheet(Sheet* sheet_, int size); a faire plus tard pour le changement de taille 
+//	void sheetSave(const string& fileName);
+//	void sheetReset();
+//	
+//
+//};

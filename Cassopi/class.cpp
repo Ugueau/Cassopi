@@ -129,3 +129,5 @@ void Pixel::setPixelCoordinate(int x, int y){
 	pixelArea.x = x;
 	pixelArea.y = y;
 }
+
+
