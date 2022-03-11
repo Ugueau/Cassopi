@@ -6,4 +6,4 @@
 
 using namespace std;
 
-void toolInterface(SDL_Renderer* rendu);
+void toolInterface(SDL_Renderer* rendu, Palette* colorPalette);

@@ -8,13 +8,15 @@
 using namespace std;
 
 
-void toolInterface(SDL_Renderer* rendu) {
+void toolInterface(SDL_Renderer* rendu, Palette* colorPalette) {
 	SDL_RenderClear(rendu);
 	SDL_Rect toolArea = { 1300,1,500,948 };
+	int count = 0;
+	int r, g, b;
 	SDL_SetRenderDrawColor(rendu, 255, 255, 255, 255);
 	SDL_RenderFillRect(rendu, &toolArea);
 
-	toolArea = {1323,323,452,602};
+	toolArea = {1325,325,450,600};
 	SDL_SetRenderDrawColor(rendu, 0, 0, 0, 255);
 	SDL_RenderFillRect(rendu, &toolArea);
 
@@ -33,10 +35,28 @@ void toolInterface(SDL_Renderer* rendu) {
 	toolArea = { 1325,200,450,100 };
 	SDL_SetRenderDrawColor(rendu, 0, 0, 0, 255);
 	SDL_RenderDrawRect(rendu, &toolArea);
+	SDL_RenderPresent(rendu);
 
-	//for(vector<SDL_Color>::const_iterator it = )
-
-
-
+	for (int i = -1; i < colorPalette->getPaletteSize()/15; i++) {
+		for (int j = 0; j < 15; j++) {
+			toolArea = { (1325+j*30),(355+i*30),30,30 };
+			r = colorPalette->getPalette(count)->r;
+			g = colorPalette->getPalette(count)->g;
+			b = colorPalette->getPalette(count)->b;
+			if (r == 0 && g == 0 && b == 0) {
+				SDL_SetRenderDrawColor(rendu, 255, 255, 255, 255);
+				SDL_RenderDrawRect(rendu, &toolArea);
+			}
+			else {
+				SDL_SetRenderDrawColor(rendu, r, g, b, 255);
+				SDL_RenderFillRect(rendu, &toolArea);
+			}
+			count++;
+			if (count >= colorPalette->getPaletteSize()) {
+				return;
+			}
+			SDL_RenderPresent(rendu);
+		}
+	}
 	SDL_RenderPresent(rendu);
 }

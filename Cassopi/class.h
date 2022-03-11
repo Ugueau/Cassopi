@@ -9,13 +9,12 @@ using namespace std;
 class Palette {
 protected:
 	vector<SDL_Color> colorTable;
-	int colorCount = 14;
 public :
 	Palette();
 	Palette(const string& colorFile);
 	~Palette();
-	const SDL_Color* getPalette(int numColor) const;
-	const int getPaletteColorNumber() const;
+	const SDL_Color* getPalette(int numColor) const; 
+	const int getPaletteSize();
 	void setNewColor(Uint8 red, Uint8 green, Uint8 blue);
 	void paletteSave(const string& colorFile);
 };

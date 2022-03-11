@@ -10,6 +10,7 @@ using namespace std;
 
 Palette::Palette() {
 	SDL_Color tmp;
+	int colorLoadCounter;
 	char recup[20];
 	ifstream reader("default_color.txt", ios::in);
 	if (!reader) {
@@ -17,8 +18,8 @@ Palette::Palette() {
 		return;
 	}
 	reader.getline(recup, 20);
-	colorCount = atoi(recup);
-	for (int i = 0; i < colorCount; i++) {
+	colorLoadCounter = atoi(recup);
+	for (int i = 0; i < colorLoadCounter; i++) {
 		reader.getline(recup, 20, ',');
 		tmp.r = atoi(recup);
 		reader.getline(recup, 20, ',');
@@ -33,6 +34,7 @@ Palette::Palette() {
 
 Palette::Palette(const string& colorFile) {
 	SDL_Color tmp;
+	int colorLoadCounter;
 	char recup[20];
 	ifstream reader(colorFile, ios::in);
 	if (!reader) {
@@ -40,9 +42,9 @@ Palette::Palette(const string& colorFile) {
 		return;
 	}
 	reader.getline(recup, 20);
-	colorCount = atoi(recup);
-	colorTable.reserve(colorCount);
-	for (int i = 0; i < colorCount; i++) {
+	colorLoadCounter = atoi(recup);
+	colorTable.reserve(colorLoadCounter);
+	for (int i = 0; i < colorLoadCounter; i++) {
 		reader.getline(recup, 20, ',');
 		tmp.r = atoi(recup);
 		reader.getline(recup, 20, ',');
@@ -60,16 +62,18 @@ Palette::~Palette(){
 }
 
 const SDL_Color* Palette::getPalette( int i) const{
-	return &colorTable[i];
+	vector<SDL_Color>::const_iterator it = colorTable.begin() + i;
+	return &(*it);
 }
 
-const int Palette::getPaletteColorNumber() const{
-	return colorCount;
+
+const int Palette::getPaletteSize()
+{
+	return colorTable.size();
 }
 
 void Palette::setNewColor(Uint8 rouge, Uint8 vert, Uint8 bleu) {
 	SDL_Color ajout = { rouge,vert,bleu,255 };
-	colorCount++;
 	colorTable.push_back(ajout);
 }
 
@@ -79,7 +83,7 @@ void Palette::paletteSave(const string& colorFile) {
 		cout << RED << "Erreur sauvegarde impossible" << endl;
 		return;
 	}
-	save << colorCount << '\n';
+	save << (int)colorTable.size() << '\n';
 	for (vector<SDL_Color>::const_iterator it = colorTable.begin(); it < colorTable.end(); ++it) {
 		save << (int) it->r << "," << (int) it->g << "," << (int) it->b << ";";
 	}

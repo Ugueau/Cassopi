@@ -40,7 +40,8 @@ int main(int argn, char* argv[]) {//entête imposée
 	SDL_Color t;
 	test.setNewColor(170, 70, 130);
 	SDL_RenderClear(rendu);
-	toolInterface(rendu);
+	cout << "test" << endl;
+	toolInterface(rendu,&test);
 
 	bool continuer = true;   //booléen fin de programme
 	SDL_Event event;//gestion des évènements souris/clavier, 
