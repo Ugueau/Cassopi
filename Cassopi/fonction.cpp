@@ -51,12 +51,11 @@ void toolInterface(SDL_Renderer* rendu, Palette* colorPalette) {
 				SDL_SetRenderDrawColor(rendu, r, g, b, 255);
 				SDL_RenderFillRect(rendu, &toolArea);
 			}
+			SDL_RenderPresent(rendu);
 			count++;
 			if (count >= colorPalette->getPaletteSize()) {
 				return;
-			}
-			SDL_RenderPresent(rendu);
+			}	
 		}
 	}
-	SDL_RenderPresent(rendu);
 }

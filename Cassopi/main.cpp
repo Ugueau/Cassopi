@@ -41,6 +41,8 @@ int main(int argn, char* argv[]) {//entête imposée
 	test.setNewColor(170, 70, 130);
 	SDL_RenderClear(rendu);
 	cout << "test" << endl;
+	cout << YELLOW << test.getPaletteSize() << RESET << endl;
+	cout << RED << (int)test.getPalette(14)->r << GREEN << (int)test.getPalette(14)->g << BLUE << (int)test.getPalette(14)->r << endl;
 	toolInterface(rendu,&test);
 
 	bool continuer = true;   //booléen fin de programme
