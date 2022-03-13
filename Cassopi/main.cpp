@@ -37,14 +37,15 @@ int main(int argn, char* argv[]) {//entête imposée
 
 	Palette test;
 	SDL_Rect r = { 0,0,30,30 };
-	SDL_Color t;
+	Sheet feuille (Giant);
 	test.setNewColor(170, 70, 130);
 	test.setNewColor(0, 154, 00);
 	SDL_RenderClear(rendu);
 	cout << "test" << endl;
-	cout << YELLOW << test.getPaletteSize() << RESET << endl;
-	cout << RED << (int)test.getPalette(14)->r << GREEN << (int)test.getPalette(14)->g << BLUE << (int)test.getPalette(14)->r << endl;
 	toolInterface(rendu,&test);
+	feuille.DrawSheet(rendu);
+
+
 	//SDL_SetRenderDrawColor(rendu, 255, 0, 0, 0);
 	//SDL_RenderDrawLine(rendu, 50, 0, 50, 900);
 	//SDL_SetRenderDrawColor(rendu, 255, 255, 0, 0);

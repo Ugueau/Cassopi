@@ -1,4 +1,4 @@
-#pragma once
+
 #include <iostream>
 #include <string>
 #include<SDL.h> //ne pas oublier
@@ -7,6 +7,8 @@
 #include "class.h"
 #include "color.h"
 using namespace std;
+SDL_Color defaultColor = { 255,255,255,255 };
+SDL_Color defaultColorBorder = { 190,190,190,255 };
 
 Palette::Palette() {
 	SDL_Color tmp;
@@ -97,6 +99,11 @@ const SDL_Color* Pixel::getPixelBorder() const {
 	return *borderColor;
 }
 
+const SDL_Rect* Pixel::getPixelArea()
+{
+	return &pixelArea;
+}
+
 void Pixel::setPixelColor(SDL_Color* newColor){
 	color = newColor;
 }
@@ -120,9 +127,9 @@ void Pixel::setPixelLeftBorder(SDL_Color* newBorderColor)
 	borderColor[3] = newBorderColor;
 }
 
-void Pixel::setPixelSize(int height, int width){
+void Pixel::setPixelSize(int height){
 	pixelArea.h = height;
-	pixelArea.w = width;
+	pixelArea.w = height;
 }
 
 void Pixel::setPixelCoordinate(int x, int y){
@@ -130,4 +137,59 @@ void Pixel::setPixelCoordinate(int x, int y){
 	pixelArea.y = y;
 }
 
+Sheet::Sheet()
+{
+	grid.resize(16);
+	for (int i = 0; i < 16; i++)
+	{
+		grid[i].resize(12);
+	}
 
+	for (int i = 0; i < 16; i++) {
+		for (int j = 0; j < 12; j++){
+			grid[i][j].setPixelColor(&defaultColor);
+			grid[i][j].setPixelSize(M);
+			grid[i][j].setPixelCoordinate(M * i + 50, M * j + 25);
+			grid[i][j].setPixelBottomBorder(&defaultColorBorder);
+			grid[i][j].setPixelTopBorder(&defaultColorBorder);
+			grid[i][j].setPixelRightBorder(&defaultColorBorder);
+			grid[i][j].setPixelLeftBorder(&defaultColorBorder);
+		}
+	}
+}
+
+Sheet::Sheet(int size)
+{
+	sheetPixelSize = size;
+	grid.resize(1200 / size);
+	for (int i = 0; i < 1200 / size; i++)
+	{
+		grid[i].resize(900 / size);
+	}
+	for (int i = 0; i < 1200 / size; i++) {
+		for (int j = 0; j < 900 / size; j++) {
+			grid[i][j].setPixelColor(&defaultColor);
+			grid[i][j].setPixelSize(size);
+			grid[i][j].setPixelCoordinate((size * i + 50), (size * j + 25));
+			grid[i][j].setPixelBottomBorder(&defaultColorBorder);
+			grid[i][j].setPixelTopBorder(&defaultColorBorder);
+			grid[i][j].setPixelRightBorder(&defaultColorBorder);
+			grid[i][j].setPixelLeftBorder(&defaultColorBorder);
+		}
+	}
+}
+
+void Sheet::DrawSheet(SDL_Renderer* rendu)
+{
+	for (int i = 0; i < 1200 / sheetPixelSize; i++) {
+		for (int j = 0; j < 900 / sheetPixelSize; j++) {
+			SDL_SetRenderDrawColor(rendu,defaultColor.r,defaultColor.g,defaultColor.b,255);
+			SDL_RenderFillRect(rendu, grid[i][j].getPixelArea());
+			SDL_SetRenderDrawColor(rendu, defaultColorBorder.r, defaultColorBorder.g, defaultColorBorder.b, 255);
+			SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x+ grid[i][j].getPixelArea()->w, grid[i][j].getPixelArea()->y);
+			SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y + grid[i][j].getPixelArea()->h);
+			//SDL_RenderPresent(rendu);
+		}
+	}
+	SDL_RenderPresent(rendu);
+}
