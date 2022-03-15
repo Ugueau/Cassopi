@@ -59,3 +59,9 @@ void toolInterface(SDL_Renderer* rendu, Palette* colorPalette) {
 		}
 	}
 }
+
+void mouseAction(SDL_Event* event) {
+	// detecter si souris dans zone de palette ou zone de dessin 
+	// puis si zone dessin changer la couleur du pixel correspondant 
+	// si zone palette changer la couleur selectionner (creer une variable SDL_Color qui correspond au choix de couleur en cours)
+}

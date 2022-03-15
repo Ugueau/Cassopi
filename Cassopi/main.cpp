@@ -46,12 +46,6 @@ int main(int argn, char* argv[]) {//entête imposée
 	feuille.DrawSheet(rendu);
 
 
-	//SDL_SetRenderDrawColor(rendu, 255, 0, 0, 0);
-	//SDL_RenderDrawLine(rendu, 50, 0, 50, 900);
-	//SDL_SetRenderDrawColor(rendu, 255, 255, 0, 0);
-	//SDL_RenderDrawLine(rendu, 50, 900, 50, 948);
-	//SDL_RenderPresent(rendu);
-
 	bool continuer = true;   //booléen fin de programme
 	SDL_Event event;//gestion des évènements souris/clavier, 
 					//SDL_Event est de type struct
@@ -63,6 +57,11 @@ int main(int argn, char* argv[]) {//entête imposée
 		case SDL_QUIT: //clic sur la croix de fermeture
 					   //on peut enlever SDL_Delay
 			continuer = false;
+			break;
+		case SDL_MOUSEBUTTONUP:
+			if (event.button.button == SDL_BUTTON_LEFT) {
+
+			}
 			break;
 		}
 	}
