@@ -91,6 +91,33 @@ void Palette::paletteSave(const string& colorFile) {
 	}
 }
 
+void Palette::drawPalette(SDL_Renderer* rendu)
+{
+	int count = 0;
+	int r, g, b;
+	for (int i = -1; i < this->getPaletteSize() / 15; i++) {
+		for (int j = 0; j < 15; j++) {
+			SDL_Rect paintColor = { (1325 + j * 30),(355 + i * 30),30,30 };
+			r = this->getPalette(count)->r;
+			g = this->getPalette(count)->g;
+			b = this->getPalette(count)->b;
+			if (r == 0 && g == 0 && b == 0) {
+				SDL_SetRenderDrawColor(rendu, 255, 255, 255, 255);
+				SDL_RenderDrawRect(rendu, &paintColor);
+			}
+			else {
+				SDL_SetRenderDrawColor(rendu, r, g, b, 255);
+				SDL_RenderFillRect(rendu, &paintColor);
+			}
+			SDL_RenderPresent(rendu);
+			count++;
+			if (count >= this->getPaletteSize()) {
+				return;
+			}
+		}
+	}
+}
+
 const SDL_Color* Pixel::getPixelColor() const {
 	return color;
 }
@@ -183,13 +210,26 @@ void Sheet::DrawSheet(SDL_Renderer* rendu)
 {
 	for (int i = 0; i < 1200 / sheetPixelSize; i++) {
 		for (int j = 0; j < 900 / sheetPixelSize; j++) {
-			SDL_SetRenderDrawColor(rendu,defaultColor.r,defaultColor.g,defaultColor.b,255);
+			SDL_SetRenderDrawColor(rendu,this->getPixel(i,j)->getPixelColor()->r, this->getPixel(i, j)->getPixelColor()->g, this->getPixel(i, j)->getPixelColor()->b,255);
 			SDL_RenderFillRect(rendu, grid[i][j].getPixelArea());
-			SDL_SetRenderDrawColor(rendu, defaultColorBorder.r, defaultColorBorder.g, defaultColorBorder.b, 255);
+			SDL_SetRenderDrawColor(rendu, this->getPixel(i,j)->getPixelBorder()[0].r, this->getPixel(i, j)->getPixelBorder()[0].g, this->getPixel(i, j)->getPixelBorder()[0].b, 255);
 			SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x+ grid[i][j].getPixelArea()->w, grid[i][j].getPixelArea()->y);
 			SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y + grid[i][j].getPixelArea()->h);
-			//SDL_RenderPresent(rendu);
 		}
 	}
 	SDL_RenderPresent(rendu);
+}
+
+void Sheet::setSelectedPixel(SDL_Color * color, int xSelectedPixel, int ySelectedPixel)
+{
+	grid[xSelectedPixel][ySelectedPixel].setPixelColor(color);
+	grid[xSelectedPixel][ySelectedPixel].setPixelBottomBorder(color);
+	grid[xSelectedPixel][ySelectedPixel].setPixelTopBorder(color);
+	grid[xSelectedPixel][ySelectedPixel].setPixelRightBorder(color);
+	grid[xSelectedPixel][ySelectedPixel].setPixelLeftBorder(color);
+}
+
+Pixel* Sheet::getPixel(int x, int y)
+{
+	return &(grid[x][y]);
 }

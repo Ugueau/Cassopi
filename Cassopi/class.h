@@ -28,6 +28,7 @@ public :
 	const int getPaletteSize();
 	void setNewColor(Uint8 red, Uint8 green, Uint8 blue);
 	void paletteSave(const string& colorFile);
+	void drawPalette(SDL_Renderer* rendu);
 };
 
 class Pixel {
@@ -61,6 +62,8 @@ public:
 	//void sheetReset();
 	void DrawSheet(SDL_Renderer* rendu);
 	//void setSheetSize();
+	void setSelectedPixel(SDL_Color* color, int xSelectedPixel, int ySelectedPixel);
 	//const int getSheetSize() const;
 	//const vector<vector<Pixel>>* getGrid();
+	Pixel* getPixel(int x, int y);
 };

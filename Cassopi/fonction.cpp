@@ -36,32 +36,24 @@ void toolInterface(SDL_Renderer* rendu, Palette* colorPalette) {
 	SDL_SetRenderDrawColor(rendu, 0, 0, 0, 255);
 	SDL_RenderDrawRect(rendu, &toolArea);
 	SDL_RenderPresent(rendu);
-
-	for (int i = -1; i < colorPalette->getPaletteSize()/15; i++) {
-		for (int j = 0; j < 15; j++) {
-			toolArea = { (1325+j*30),(355+i*30),30,30 };
-			r = colorPalette->getPalette(count)->r;
-			g = colorPalette->getPalette(count)->g;
-			b = colorPalette->getPalette(count)->b;
-			if (r == 0 && g == 0 && b == 0) {
-				SDL_SetRenderDrawColor(rendu, 255, 255, 255, 255);
-				SDL_RenderDrawRect(rendu, &toolArea);
-			}
-			else {
-				SDL_SetRenderDrawColor(rendu, r, g, b, 255);
-				SDL_RenderFillRect(rendu, &toolArea);
-			}
-			SDL_RenderPresent(rendu);
-			count++;
-			if (count >= colorPalette->getPaletteSize()) {
-				return;
-			}	
-		}
-	}
 }
 
-void mouseAction(SDL_Event* event) {
+void mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCursor, Sheet* currentSheet, Palette* currentPalette, int taille) {
 	// detecter si souris dans zone de palette ou zone de dessin 
 	// puis si zone dessin changer la couleur du pixel correspondant 
 	// si zone palette changer la couleur selectionner (creer une variable SDL_Color qui correspond au choix de couleur en cours)
+	if (event->button.button == SDL_BUTTON_LEFT) {
+		if (event->button.x < 1775 && event->button.x > 1325 && event->button.y > 925 && event->button.y < 325) {
+			//zone de palette /!\ detecter si click est bien sur une couleur sinon depassement de vector
+		}
+		if (event->button.x < 1300 && event->button.x > 50 && event->button.y > 25 && event->button.y < 900) {
+			SDL_RenderClear(rendu);
+			currentSheet->setSelectedPixel(colorCursor,((event->button.x-50) / taille),((event->button.y-25) / taille));
+			toolInterface(rendu, currentPalette);
+			currentPalette->drawPalette(rendu);
+			currentSheet->DrawSheet(rendu);
+			SDL_RenderPresent(rendu);
+			//cout << "le pixel : " << ((event->button.x - 50) / taille) << " : " << ((event->button.y - 25) / taille) << "\n Couleur : " << (int)colorCursor->r << (int)colorCursor->g << (int)colorCursor->b << endl;
+		}
+	}
 }

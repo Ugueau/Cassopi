@@ -8,11 +8,14 @@
 
 using namespace std;
 
-const int LARGEUR = 1800; //largeur fenetre
-const int HAUTEUR = 950;  //hauteur fenetre
+const int LARGEUR = 1800;
+const int HAUTEUR = 950;
 
-int main(int argn, char* argv[]) {//entête imposée
-								  //ouverture de la SDL
+int main(int argn, char* argv[]) {
+
+	SDL_Color test1 = { 0,0,255,255 };
+	SDL_Color* colorCursor = &test1;
+
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		cout << "Echec à l’ouverture";
 		return 1;
@@ -20,51 +23,55 @@ int main(int argn, char* argv[]) {//entête imposée
 
 	//on crée la fenêtre
 	SDL_Window* win = SDL_CreateWindow("Cassopi",
-		SDL_WINDOWPOS_CENTERED,     //pos. X: autre option: SDL_WINDOWPOS_UNDEFINED
-		SDL_WINDOWPOS_CENTERED,     //pos. Y: autre option: SDL_WINDOWPOS_UNDEFINED 
-		LARGEUR, 			//largeur en pixels			
-		HAUTEUR, 			//hauteur en pixels
-		SDL_WINDOW_SHOWN//d’autres options (plein ecran, resizable, sans bordure...)
+		SDL_WINDOWPOS_CENTERED,     
+		SDL_WINDOWPOS_CENTERED,      
+		LARGEUR, 					
+		HAUTEUR, 			
+		SDL_WINDOW_SHOWN
 	);
 	if (win == NULL)
 		cout << "erreur ouverture fenetre";
 
 	//Création d’un dessin associé à la fenêtre (1 seul renderer par fenetre)
 	SDL_Renderer* rendu = SDL_CreateRenderer(
-		win,  //nom de la fenêtre
-		-1, //par défaut
-		SDL_RENDERER_ACCELERATED); //utilisation du GPU, valeur recommandée
+		win,  
+		-1, 
+		SDL_RENDERER_ACCELERATED);
 
-	Palette test;
+	Palette myPalette;
 	SDL_Rect r = { 0,0,30,30 };
-	Sheet feuille (Giant);
-	test.setNewColor(170, 70, 130);
-	test.setNewColor(0, 154, 00);
+	Sheet feuille (M);
+	myPalette.setNewColor(170, 70, 130);
+	myPalette.setNewColor(0, 154, 00);
 	SDL_RenderClear(rendu);
 	cout << "test" << endl;
-	toolInterface(rendu,&test);
+	toolInterface(rendu,&myPalette);
 	feuille.DrawSheet(rendu);
+	myPalette.drawPalette(rendu);
+	//SDL_SetRenderDrawColor(rendu, 255, 0, 0, 255);
+	//SDL_RenderDrawLine(rendu, 1500, 325, 1500, 355);
+	//SDL_RenderPresent(rendu);
 
 
-	bool continuer = true;   //booléen fin de programme
-	SDL_Event event;//gestion des évènements souris/clavier, 
-					//SDL_Event est de type struct
+	bool continuer = true;
+	SDL_Event event;
+
 	while (continuer)
 	{
-		SDL_WaitEvent(&event);//attente d’un évènement
-		switch (event.type) //test du type d’évènement
+		SDL_WaitEvent(&event);
+		switch (event.type)
 		{
-		case SDL_QUIT: //clic sur la croix de fermeture
-					   //on peut enlever SDL_Delay
+		case SDL_QUIT:
 			continuer = false;
 			break;
-		case SDL_MOUSEBUTTONUP:
-			if (event.button.button == SDL_BUTTON_LEFT) {
 
-			}
+		case SDL_MOUSEBUTTONUP:
+			mouseAction(rendu,&event, colorCursor, &feuille, &myPalette, M);
+			feuille.DrawSheet(rendu);
 			break;
 		}
 	}
+
 	//destruction du renderer à la fin
 	SDL_DestroyRenderer(rendu);
 
