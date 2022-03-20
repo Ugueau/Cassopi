@@ -229,6 +229,11 @@ void Sheet::setSelectedPixel(SDL_Color * color, int xSelectedPixel, int ySelecte
 	grid[xSelectedPixel][ySelectedPixel].setPixelLeftBorder(color);
 }
 
+const int Sheet::getSheetSize() const
+{
+	return sheetPixelSize;
+}
+
 Pixel* Sheet::getPixel(int x, int y)
 {
 	return &(grid[x][y]);

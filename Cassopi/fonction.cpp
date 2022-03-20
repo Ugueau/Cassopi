@@ -16,6 +16,10 @@ void toolInterface(SDL_Renderer* rendu, Palette* colorPalette) {
 	SDL_SetRenderDrawColor(rendu, 255, 255, 255, 255);
 	SDL_RenderFillRect(rendu, &toolArea);
 
+	toolArea = { 0,0,1300,950 };
+	SDL_SetRenderDrawColor(rendu, 0, 0, 0, 255);
+	SDL_RenderFillRect(rendu, &toolArea);
+
 	toolArea = {1325,325,450,600};
 	SDL_SetRenderDrawColor(rendu, 0, 0, 0, 255);
 	SDL_RenderFillRect(rendu, &toolArea);

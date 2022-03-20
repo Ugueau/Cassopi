@@ -63,7 +63,7 @@ public:
 	void DrawSheet(SDL_Renderer* rendu);
 	//void setSheetSize();
 	void setSelectedPixel(SDL_Color* color, int xSelectedPixel, int ySelectedPixel);
-	//const int getSheetSize() const;
+	const int getSheetSize() const;
 	//const vector<vector<Pixel>>* getGrid();
 	Pixel* getPixel(int x, int y);
 };
