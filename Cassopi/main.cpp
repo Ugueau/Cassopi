@@ -40,7 +40,7 @@ int main(int argn, char* argv[]) {
 
 	Palette myPalette;
 	SDL_Rect r = { 0,0,30,30 };
-	Sheet feuille (WTF_BRO);
+	Sheet feuille (M);
 	myPalette.setNewColor(170, 70, 130);
 	myPalette.setNewColor(0, 154, 00);
 	SDL_RenderClear(rendu);
@@ -66,7 +66,7 @@ int main(int argn, char* argv[]) {
 			break;
 
 		case SDL_MOUSEBUTTONUP:
-			mouseAction(rendu,&event, colorCursor, &feuille, &myPalette, feuille.getSheetSize());
+			colorCursor = mouseAction(rendu,&event, colorCursor, &feuille, &myPalette, feuille.getSheetSize());
 			feuille.DrawSheet(rendu);
 			break;
 		}

@@ -7,4 +7,4 @@
 using namespace std;
 
 void toolInterface(SDL_Renderer* rendu, Palette* colorPalette);
-void mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCursor, Sheet* currentSheet, Palette* currentPalette, int taille);
+SDL_Color* mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCursor, Sheet* currentSheet, Palette* currentPalette, int taille);
