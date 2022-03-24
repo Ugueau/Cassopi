@@ -54,20 +54,28 @@ int main(int argn, char* argv[]) {
 
 
 	bool continuer = true;
+	bool click;
 	SDL_Event event;
 
 	while (continuer)
 	{
-		SDL_WaitEvent(&event);
+		SDL_PollEvent(&event);
 		switch (event.type)
 		{
 		case SDL_QUIT:
 			continuer = false;
 			break;
 
-		case SDL_MOUSEBUTTONUP:
-			colorCursor = mouseAction(rendu,&event, colorCursor, &feuille, &myPalette, feuille.getSheetSize());
-			refreshDisplay(rendu, &myPalette, &feuille);
+		case SDL_MOUSEBUTTONDOWN:
+			click = true;
+			while (click) {
+				SDL_PollEvent(&event);
+				if (event.type == SDL_MOUSEBUTTONUP) {
+					click = false;
+				}
+				colorCursor = mouseAction(rendu, &event, colorCursor, &feuille, &myPalette, feuille.getSheetSize());
+				refreshDisplay(rendu, &myPalette, &feuille);
+			}
 			break;
 		}
 	}
