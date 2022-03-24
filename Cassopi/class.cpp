@@ -109,7 +109,6 @@ void Palette::drawPalette(SDL_Renderer* rendu)
 				SDL_SetRenderDrawColor(rendu, r, g, b, 255);
 				SDL_RenderFillRect(rendu, &paintColor);
 			}
-			SDL_RenderPresent(rendu);
 			count++;
 			if (count >= this->getPaletteSize()) {
 				return;
@@ -217,7 +216,6 @@ void Sheet::DrawSheet(SDL_Renderer* rendu)
 			SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y + grid[i][j].getPixelArea()->h);
 		}
 	}
-	SDL_RenderPresent(rendu);
 }
 
 void Sheet::setSelectedPixel(SDL_Color * color, int xSelectedPixel, int ySelectedPixel)

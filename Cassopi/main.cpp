@@ -10,11 +10,13 @@ using namespace std;
 
 const int LARGEUR = 1800;
 const int HAUTEUR = 950;
+const SDL_Rect colorPaletteSize = { 0,0,30,30 };
+const SDL_Color baseColorCursor = { 0,0,255,255 };
 
 int main(int argn, char* argv[]) {
 
-	SDL_Color test1 = { 0,0,255,255 };
-	SDL_Color* colorCursor = &test1;
+
+	SDL_Color* colorCursor = (SDL_Color*) &baseColorCursor;
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		cout << "Echec à l’ouverture";
@@ -39,15 +41,13 @@ int main(int argn, char* argv[]) {
 		SDL_RENDERER_ACCELERATED);
 
 	Palette myPalette;
-	SDL_Rect r = { 0,0,30,30 };
-	Sheet feuille (M);
+	Sheet feuille (Giant);
 	myPalette.setNewColor(170, 70, 130);
 	myPalette.setNewColor(0, 154, 00);
 	SDL_RenderClear(rendu);
-	cout << "test" << endl;
-	toolInterface(rendu,&myPalette);
-	feuille.DrawSheet(rendu);
-	myPalette.drawPalette(rendu);
+	refreshDisplay(rendu, &myPalette, &feuille);
+
+
 	//SDL_SetRenderDrawColor(rendu, 255, 0, 0, 255);
 	//SDL_RenderDrawLine(rendu, 1500, 325, 1500, 355);
 	//SDL_RenderPresent(rendu);
@@ -67,7 +67,7 @@ int main(int argn, char* argv[]) {
 
 		case SDL_MOUSEBUTTONUP:
 			colorCursor = mouseAction(rendu,&event, colorCursor, &feuille, &myPalette, feuille.getSheetSize());
-			feuille.DrawSheet(rendu);
+			refreshDisplay(rendu, &myPalette, &feuille);
 			break;
 		}
 	}
