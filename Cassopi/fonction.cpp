@@ -9,7 +9,7 @@ using namespace std;
 
 
 void toolInterface(SDL_Renderer* rendu) {
-	SDL_Rect toolArea = { 1300,1,500,948 };
+	SDL_Rect toolArea = { 1300,0,500,948 };
 	int count = 0;
 	int r, g, b;
 	SDL_SetRenderDrawColor(rendu, 255, 255, 255, 255);
@@ -52,7 +52,7 @@ SDL_Color* mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCu
 				return colorCursor;
 			}
 		}
-		if (event->button.x < 1300 && event->button.x > 50 && event->button.y > 25 && event->button.y < 900) {
+		if (event->button.x < 1250 && event->button.x > 50 && event->button.y > 25 && event->button.y < 875) {
 			currentSheet->setSelectedPixel(colorCursor,((event->button.x-50) / taille),((event->button.y-25) / taille));
 		}
 	}
