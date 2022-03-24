@@ -7,7 +7,7 @@
 #include "class.h"
 #include "color.h"
 using namespace std;
-SDL_Color defaultColor = { 255,255,255,255 };
+SDL_Color defaultColor = { 255,255,255,13 };
 SDL_Color defaultColorBorder = { 190,190,190,255 };
 
 Palette::Palette() {
@@ -197,6 +197,41 @@ Sheet::Sheet(int size)
 			grid[i][j].setPixelColor(&defaultColor);
 			grid[i][j].setPixelSize(size);
 			grid[i][j].setPixelCoordinate((size * i + 50), (size * j + 25));
+			grid[i][j].setPixelBottomBorder(&defaultColorBorder);
+			grid[i][j].setPixelTopBorder(&defaultColorBorder);
+			grid[i][j].setPixelRightBorder(&defaultColorBorder);
+			grid[i][j].setPixelLeftBorder(&defaultColorBorder);
+		}
+	}
+}
+
+void Sheet::sheetToSVG(const string& fileName)
+{
+	string realFileName = fileName + ".svg";
+	ofstream exportToSVG(realFileName, ios::out);
+	if (!exportToSVG) {
+		cout << RED << "Erreur export impossible" << endl;
+		return;
+	}
+	//exportToSVG << R"(<!DOCTYPE html> <html> <body>)" << '\n';
+	exportToSVG << R"(<svg width="1200" height="900">)";
+	for (int i = 0; i < grid.size(); i++){
+		for (int j = 0; j < grid[i].size(); j++){
+			if (this->getPixel(i, j)->getPixelColor()->a != 13) {
+				exportToSVG << R"(<rect x = ")" << sheetPixelSize * i << R"(" y = ")" << sheetPixelSize * j << R"(" width = ")" << this->getSheetSize() << R"(" height = ")" << this->getSheetSize() << R"(" style = " fill:rgb()" << (int)this->getPixel(i, j)->getPixelColor()->r << "," << (int)this->getPixel(i, j)->getPixelColor()->g << "," << (int)this->getPixel(i, j)->getPixelColor()->b << R"() " /> )" << '\n';
+			}
+		}
+	}
+	exportToSVG << R"(</svg>)";
+	//exportToSVG << R"(</body> </html>)";
+	exportToSVG.close();
+}
+
+void Sheet::sheetReset()
+{
+	for (int i = 0; i < grid.size(); i++) {
+		for (int j = 0; j < grid[i].size(); j++){
+			grid[i][j].setPixelColor(&defaultColor);
 			grid[i][j].setPixelBottomBorder(&defaultColorBorder);
 			grid[i][j].setPixelTopBorder(&defaultColorBorder);
 			grid[i][j].setPixelRightBorder(&defaultColorBorder);

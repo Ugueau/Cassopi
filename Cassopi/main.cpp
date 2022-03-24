@@ -14,8 +14,7 @@ const SDL_Rect colorPaletteSize = { 0,0,30,30 };
 const SDL_Color baseColorCursor = { 0,0,255,255 };
 
 int main(int argn, char* argv[]) {
-
-
+	
 	SDL_Color* colorCursor = (SDL_Color*) &baseColorCursor;
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -41,7 +40,7 @@ int main(int argn, char* argv[]) {
 		SDL_RENDERER_ACCELERATED);
 
 	Palette myPalette;
-	Sheet feuille (Giant);
+	Sheet feuille (M);
 	myPalette.setNewColor(170, 70, 130);
 	myPalette.setNewColor(0, 154, 00);
 	SDL_RenderClear(rendu);
@@ -69,7 +68,7 @@ int main(int argn, char* argv[]) {
 		case SDL_MOUSEBUTTONDOWN:
 			click = true;
 			while (click) {
-				SDL_PollEvent(&event);
+				SDL_WaitEvent(&event);
 				if (event.type == SDL_MOUSEBUTTONUP) {
 					click = false;
 				}
@@ -77,6 +76,14 @@ int main(int argn, char* argv[]) {
 				refreshDisplay(rendu, &myPalette, &feuille);
 			}
 			break;
+		case SDL_KEYDOWN:
+			if (event.key.keysym.sym == SDLK_r) {
+				feuille.sheetReset();
+				refreshDisplay(rendu, &myPalette, &feuille);
+			}
+			else if (event.key.keysym.sym == SDLK_s) {
+				feuille.sheetToSVG("monSVG");
+			}
 		}
 	}
 

@@ -15,6 +15,7 @@ using namespace std;
 #define XXL 25
 #define Giant 10
 #define WTF_BRO 5
+#define SUUUUU 1 
 ////////////////////////////
 
 class Palette {
@@ -53,17 +54,17 @@ public :
 class Sheet {
 private:
 	vector<vector<Pixel>> grid;
-	int sheetPixelSize = 75;
+	int sheetPixelSize = M;
 public:
 	Sheet();
 	Sheet(int size);
 	//Sheet(Sheet* sheet_, int size); a faire plus tard pour le changement de taille 
-	//void sheetSave(const string& fileName);
-	//void sheetReset();
-	void DrawSheet(SDL_Renderer* rendu);
 	//void setSheetSize();
 	void setSelectedPixel(SDL_Color* color, int xSelectedPixel, int ySelectedPixel);
 	const int getSheetSize() const;
 	//const vector<vector<Pixel>>* getGrid();
 	Pixel* getPixel(int x, int y);
+	void sheetToSVG(const string& fileName);
+	void sheetReset();
+	void DrawSheet(SDL_Renderer* rendu);
 };
