@@ -4,6 +4,8 @@
 #include<SDL_ttf.h> //ne pas oublier
 #include <string>
 #include <vector>
+#include <thread>
+#include <Windows.h>
 using namespace std;
 /////////////////////////////
 #define XXS 300
@@ -15,7 +17,7 @@ using namespace std;
 #define XXL 25
 #define Giant 10
 #define WTF_BRO 5
-#define SUUUUU 1 
+#define SUUUUU 2 
 ////////////////////////////
 
 class Palette {

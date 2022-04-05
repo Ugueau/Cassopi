@@ -213,7 +213,7 @@ void Sheet::sheetToSVG(const string& fileName)
 		cout << RED << "Erreur export impossible" << endl;
 		return;
 	}
-	//exportToSVG << R"(<!DOCTYPE html> <html> <body>)" << '\n';
+	//exportToSVG << R"(<!DOCTYPE html> <html> <body>)" << '\n'; // pour basculer en html
 	exportToSVG << R"(<svg width="1200" height="900">)";
 	for (int i = 0; i < grid.size(); i++){
 		for (int j = 0; j < grid[i].size(); j++){
@@ -223,7 +223,7 @@ void Sheet::sheetToSVG(const string& fileName)
 		}
 	}
 	exportToSVG << R"(</svg>)";
-	//exportToSVG << R"(</body> </html>)";
+	//exportToSVG << R"(</body> </html>)"; // pour basculer en html
 	exportToSVG.close();
 }
 
@@ -242,13 +242,16 @@ void Sheet::sheetReset()
 
 void Sheet::DrawSheet(SDL_Renderer* rendu)
 {
+	SDL_Rect borderBox;
 	for (int i = 0; i < 1200 / sheetPixelSize; i++) {
 		for (int j = 0; j < 900 / sheetPixelSize; j++) {
 			SDL_SetRenderDrawColor(rendu,this->getPixel(i,j)->getPixelColor()->r, this->getPixel(i, j)->getPixelColor()->g, this->getPixel(i, j)->getPixelColor()->b,255);
 			SDL_RenderFillRect(rendu, grid[i][j].getPixelArea());
 			SDL_SetRenderDrawColor(rendu, this->getPixel(i,j)->getPixelBorder()[0].r, this->getPixel(i, j)->getPixelBorder()[0].g, this->getPixel(i, j)->getPixelBorder()[0].b, 255);
-			SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x+ grid[i][j].getPixelArea()->w, grid[i][j].getPixelArea()->y);
-			SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y + grid[i][j].getPixelArea()->h);
+			//SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x+ grid[i][j].getPixelArea()->w, grid[i][j].getPixelArea()->y);
+			//SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y + grid[i][j].getPixelArea()->h);
+			borderBox = { grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->w, grid[i][j].getPixelArea()->h };
+			SDL_RenderDrawRect(rendu, &borderBox);
 		}
 	}
 }

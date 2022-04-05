@@ -41,9 +41,6 @@ void toolInterface(SDL_Renderer* rendu) {
 }
 
 SDL_Color* mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCursor, Sheet* currentSheet, Palette* currentPalette, int taille) {
-	// detecter si souris dans zone de palette ou zone de dessin 
-	// puis si zone dessin changer la couleur du pixel correspondant 
-	// si zone palette changer la couleur selectionner (creer une variable SDL_Color qui correspond au choix de couleur en cours)
 	if (event->button.button == SDL_BUTTON_LEFT) {
 		if (event->button.x < 1775 && event->button.x > 1325 && event->button.y < 925 && event->button.y > 325) {
 			if ((event->button.x - 1325) / 30 + ((event->button.y - 325) / 30) * 15 < currentPalette->getPaletteSize()) {

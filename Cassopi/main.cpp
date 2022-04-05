@@ -6,6 +6,7 @@
 #include "config_sdl.h"
 #include "fonction.h"
 
+
 using namespace std;
 
 const int LARGEUR = 1800;
@@ -34,17 +35,13 @@ int main(int argn, char* argv[]) {
 		cout << "erreur ouverture fenetre";
 
 	//Création d’un dessin associé à la fenêtre (1 seul renderer par fenetre)
-	SDL_Renderer* rendu = SDL_CreateRenderer(
-		win,  
-		-1, 
-		SDL_RENDERER_ACCELERATED);
-
-	Palette myPalette;
-	Sheet feuille (M);
-	myPalette.setNewColor(170, 70, 130);
-	myPalette.setNewColor(0, 154, 00);
+	SDL_Renderer* rendu = SDL_CreateRenderer(win,-1, SDL_RENDERER_ACCELERATED);
+	Palette currentPalette;
+	Sheet currentSheet (XL);
+	currentPalette.setNewColor(170, 70, 130);
+	currentPalette.setNewColor(0, 154, 00);
 	SDL_RenderClear(rendu);
-	refreshDisplay(rendu, &myPalette, &feuille);
+	refreshDisplay(rendu, &currentPalette, &currentSheet);
 
 
 	//SDL_SetRenderDrawColor(rendu, 255, 0, 0, 255);
@@ -53,9 +50,7 @@ int main(int argn, char* argv[]) {
 
 
 	bool continuer = true;
-	bool click;
 	SDL_Event event;
-
 	while (continuer)
 	{
 		SDL_PollEvent(&event);
@@ -64,26 +59,26 @@ int main(int argn, char* argv[]) {
 		case SDL_QUIT:
 			continuer = false;
 			break;
-
-		case SDL_MOUSEBUTTONDOWN:
-			click = true;
-			while (click) {
-				SDL_WaitEvent(&event);
-				if (event.type == SDL_MOUSEBUTTONUP) {
-					click = false;
-				}
-				colorCursor = mouseAction(rendu, &event, colorCursor, &feuille, &myPalette, feuille.getSheetSize());
-				refreshDisplay(rendu, &myPalette, &feuille);
-			}
-			break;
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_r) {
-				feuille.sheetReset();
-				refreshDisplay(rendu, &myPalette, &feuille);
+				currentSheet.sheetReset();
+				refreshDisplay(rendu, &currentPalette, &currentSheet);
 			}
 			else if (event.key.keysym.sym == SDLK_s) {
-				feuille.sheetToSVG("monSVG");
+				currentSheet.sheetToSVG("monSVG");
 			}
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			bool click = true;
+			while (click) {
+				SDL_WaitEvent(&event);
+				if (event.key.keysym.sym == SDL_MOUSEBUTTONUP) {
+					click = false;
+				}
+				colorCursor = mouseAction(rendu, &event, colorCursor, &currentSheet, &currentPalette, currentSheet.getSheetSize());
+				refreshDisplay(rendu, &currentPalette, &currentSheet);
+			}
+			break;
 		}
 	}
 
