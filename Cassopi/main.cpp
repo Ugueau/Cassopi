@@ -60,6 +60,7 @@ int main(int argn, char* argv[]) {
 			continuer = false;
 			break;
 		case SDL_KEYDOWN:
+			cout << YELLOW << "reset" << endl;
 			if (event.key.keysym.sym == SDLK_r) {
 				currentSheet.sheetReset();
 				refreshDisplay(rendu, &currentPalette, &currentSheet);
@@ -71,9 +72,11 @@ int main(int argn, char* argv[]) {
 		case SDL_MOUSEBUTTONDOWN:
 			bool click = true;
 			while (click) {
+				cout << RED << "click" << endl;
 				SDL_WaitEvent(&event);
-				if (event.key.keysym.sym == SDL_MOUSEBUTTONUP) {
+				if (event.type == SDL_MOUSEBUTTONUP) {
 					click = false;
+					cout << GREEN << "stop" << endl;
 				}
 				colorCursor = mouseAction(rendu, &event, colorCursor, &currentSheet, &currentPalette, currentSheet.getSheetSize());
 				refreshDisplay(rendu, &currentPalette, &currentSheet);
