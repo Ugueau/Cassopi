@@ -69,4 +69,5 @@ public:
 	void sheetToSVG(const string& fileName);
 	void sheetReset();
 	void DrawSheet(SDL_Renderer* rendu);
+	void DrawPixel(SDL_Renderer* rendu, int x, int y);
 };

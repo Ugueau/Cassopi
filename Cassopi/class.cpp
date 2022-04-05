@@ -250,10 +250,17 @@ void Sheet::DrawSheet(SDL_Renderer* rendu)
 			SDL_SetRenderDrawColor(rendu, this->getPixel(i,j)->getPixelBorder()[0].r, this->getPixel(i, j)->getPixelBorder()[0].g, this->getPixel(i, j)->getPixelBorder()[0].b, 255);
 			//SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x+ grid[i][j].getPixelArea()->w, grid[i][j].getPixelArea()->y);
 			//SDL_RenderDrawLine(rendu, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y + grid[i][j].getPixelArea()->h);
-			borderBox = { grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->w, grid[i][j].getPixelArea()->h };
+			borderBox = { grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->w+1, grid[i][j].getPixelArea()->h+1 };
 			SDL_RenderDrawRect(rendu, &borderBox);
 		}
 	}
+}
+
+void Sheet::DrawPixel(SDL_Renderer* rendu, int x, int y)
+{
+	SDL_SetRenderDrawColor(rendu, this->getPixel(x, y)->getPixelColor()->r, this->getPixel(x, y)->getPixelColor()->g, this->getPixel(x, y)->getPixelColor()->b, 255);
+	SDL_RenderFillRect(rendu, grid[x][y].getPixelArea());
+	SDL_RenderPresent(rendu);
 }
 
 void Sheet::setSelectedPixel(SDL_Color * color, int xSelectedPixel, int ySelectedPixel)

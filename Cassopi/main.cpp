@@ -37,7 +37,7 @@ int main(int argn, char* argv[]) {
 	//Création d’un dessin associé à la fenêtre (1 seul renderer par fenetre)
 	SDL_Renderer* rendu = SDL_CreateRenderer(win,-1, SDL_RENDERER_ACCELERATED);
 	Palette currentPalette;
-	Sheet currentSheet (XL);
+	Sheet currentSheet (Giant);
 	currentPalette.setNewColor(170, 70, 130);
 	currentPalette.setNewColor(0, 154, 00);
 	SDL_RenderClear(rendu);
@@ -79,7 +79,6 @@ int main(int argn, char* argv[]) {
 					cout << GREEN << "stop" << endl;
 				}
 				colorCursor = mouseAction(rendu, &event, colorCursor, &currentSheet, &currentPalette, currentSheet.getSheetSize());
-				refreshDisplay(rendu, &currentPalette, &currentSheet);
 			}
 			break;
 		}

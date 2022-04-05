@@ -51,6 +51,7 @@ SDL_Color* mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCu
 		}
 		if (event->button.x < 1250 && event->button.x > 50 && event->button.y > 25 && event->button.y < 875) {
 			currentSheet->setSelectedPixel(colorCursor,((event->button.x-50) / taille),((event->button.y-25) / taille));
+			currentSheet->DrawPixel(rendu, ((event->button.x - 50) / taille), ((event->button.y - 25) / taille));
 		}
 	}
 	return colorCursor;
@@ -63,3 +64,5 @@ void refreshDisplay(SDL_Renderer* rendu, Palette* currentPalette, Sheet* current
 	currentSheet->DrawSheet(rendu);
 	SDL_RenderPresent(rendu);
 }
+
+
