@@ -80,6 +80,7 @@ int main(int argn, char* argv[]) {
 				}
 				colorCursor = mouseAction(rendu, &event, colorCursor, &currentSheet, &currentPalette, currentSheet.getSheetSize());
 			}
+			refreshDisplay(rendu, &currentPalette, &currentSheet);
 			break;
 		}
 	}
