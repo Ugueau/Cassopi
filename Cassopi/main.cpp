@@ -37,7 +37,7 @@ int main(int argn, char* argv[]) {
 	//Création d’un dessin associé à la fenêtre (1 seul renderer par fenetre)
 	SDL_Renderer* rendu = SDL_CreateRenderer(win,-1, SDL_RENDERER_ACCELERATED);
 	Palette currentPalette;
-	Sheet currentSheet (Giant);
+	Sheet currentSheet;
 	currentPalette.setNewColor(170, 70, 130);
 	currentPalette.setNewColor(0, 154, 00);
 	SDL_RenderClear(rendu);
@@ -75,11 +75,15 @@ int main(int argn, char* argv[]) {
 				cout << "bas"<<endl;
 				zoomOut(&currentSheet);
 				cout << WHITE << "Zoom : " << currentSheet.getZoomSize() << endl;
+				currentSheet.DrawSheet(rendu);
+				SDL_RenderPresent(rendu);
 			}
 			else {
 				cout << "haut"<<endl;
 				zoomIn(&currentSheet);
 				cout << WHITE << "Zoom : " << currentSheet.getZoomSize() << endl;
+				currentSheet.DrawSheet(rendu);
+				SDL_RenderPresent(rendu);
 			}
 
 			break;
@@ -92,7 +96,7 @@ int main(int argn, char* argv[]) {
 					click = false;
 					cout << GREEN << "stop" << endl;
 				}
-				colorCursor = mouseAction(rendu, &event, colorCursor, &currentSheet, &currentPalette, currentSheet.getSheetSize());
+				colorCursor = mouseAction(rendu, &event, colorCursor, &currentSheet, &currentPalette);
 			}
 			refreshDisplay(rendu, &currentPalette, &currentSheet);
 			break;

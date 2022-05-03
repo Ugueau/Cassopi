@@ -40,7 +40,7 @@ void toolInterface(SDL_Renderer* rendu) {
 	SDL_RenderDrawRect(rendu, &toolArea);
 }
 
-SDL_Color* mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCursor, Sheet* currentSheet, Palette* currentPalette, int taille) {
+SDL_Color* mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCursor, Sheet* currentSheet, Palette* currentPalette) {
 	if (event->button.button == SDL_BUTTON_LEFT) {
 		if (event->button.x < 1775 && event->button.x > 1325 && event->button.y < 925 && event->button.y > 325) {
 			if ((event->button.x - 1325) / 30 + ((event->button.y - 325) / 30) * 15 < currentPalette->getPaletteSize()) {
@@ -50,8 +50,8 @@ SDL_Color* mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCu
 			}
 		}
 		if (event->button.x < 1250 && event->button.x > 50 && event->button.y > 25 && event->button.y < 875) {
-			currentSheet->setSelectedPixel(colorCursor,((event->button.x-50) / taille),((event->button.y-25) / taille));
-			currentSheet->DrawPixel(rendu, ((event->button.x - 50) / taille), ((event->button.y - 25) / taille));
+			currentSheet->setSelectedPixel(colorCursor,((event->button.x-50) / currentSheet->getZoomSize()),((event->button.y-25) / currentSheet->getZoomSize()));
+			currentSheet->DrawPixel(rendu, ((event->button.x - 50) / currentSheet->getZoomSize()), ((event->button.y - 25) / currentSheet->getZoomSize()));
 		}
 	}
 	return colorCursor;
@@ -66,24 +66,42 @@ void refreshDisplay(SDL_Renderer* rendu, Palette* currentPalette, Sheet* current
 }
 
 void zoomIn(Sheet* currentSheet) {
+	bool isZoomed = true;
 	if (currentSheet->getZoomSize() < XXS) {
-		for (int i = 10; i >= 0 ; i--)
+		for (int i = 10; i >= 0 && isZoomed ; i--)
 		{
 			if (currentSheet->getZoomSize() < zoomTable[i]) {
 				currentSheet->setZoomSize(zoomTable[i]);
-				return;
+				isZoomed = false;
+			}
+		}
+		if (!isZoomed) {
+			for (int i = 0; i < 1200 / currentSheet->getZoomSize(); i++) {
+				for (int j = 0; j < 900 / currentSheet->getZoomSize(); j++) {
+					currentSheet->getPixel(i,j)->setPixelSize(currentSheet->getZoomSize());
+					currentSheet->getPixel(i, j)->setPixelCoordinate((currentSheet->getZoomSize() * i + 50), (currentSheet->getZoomSize() * j + 25));
+				}
 			}
 		}
 	}
 }
 
 void zoomOut(Sheet* currentSheet) {
+	bool isZoomed = true;
 	if (currentSheet->getZoomSize() > God) {
-		for (int i = 0; i < 11; i++)
+		for (int i = 0; i < 11 && isZoomed; i++)
 		{
 			if (currentSheet->getZoomSize() > zoomTable[i]) {
 				currentSheet->setZoomSize(zoomTable[i]);
-				return;
+				isZoomed = false;
+			}
+		}
+		if (!isZoomed) {
+			for (int i = 0; i < 1200 / currentSheet->getZoomSize(); i++) {
+				for (int j = 0; j < 900 / currentSheet->getZoomSize(); j++) {
+					currentSheet->getPixel(i, j)->setPixelSize(currentSheet->getZoomSize());
+					currentSheet->getPixel(i, j)->setPixelCoordinate((currentSheet->getZoomSize() * i + 50), (currentSheet->getZoomSize() * j + 25));
+				}
 			}
 		}
 	}

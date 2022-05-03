@@ -58,8 +58,8 @@ public :
 class Sheet {
 private:
 	vector<vector<Pixel>> grid;
-	int sheetPixelSize = M;
-	int zoomSize = M;
+	int sheetPixelSize = God;
+	int zoomSize = God;
 public:
 	Sheet();
 	Sheet(int size);
@@ -69,7 +69,6 @@ public:
 	void setZoomSize(int newZoomSize);
 	const int getSheetSize() const;
 	const int getZoomSize() const;
-	//const vector<vector<Pixel>>* getGrid();
 	Pixel* getPixel(int x, int y);
 	void sheetToSVG(const string& fileName);
 	void sheetReset();

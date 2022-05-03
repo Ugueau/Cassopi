@@ -165,17 +165,16 @@ void Pixel::setPixelCoordinate(int x, int y){
 
 Sheet::Sheet()
 {
-	grid.resize(16);
-	for (int i = 0; i < 16; i++)
+	grid.resize(1200 / sheetPixelSize);
+	for (int i = 0; i < 1200 / sheetPixelSize; i++)
 	{
-		grid[i].resize(12);
+		grid[i].resize(900 / sheetPixelSize);
 	}
-
-	for (int i = 0; i < 16; i++) {
-		for (int j = 0; j < 12; j++){
+	for (int i = 0; i < 1200 / sheetPixelSize; i++) {
+		for (int j = 0; j < 900 / sheetPixelSize; j++) {
 			grid[i][j].setPixelColor(&defaultColor);
-			grid[i][j].setPixelSize(M);
-			grid[i][j].setPixelCoordinate(M * i + 50, M * j + 25);
+			grid[i][j].setPixelSize(sheetPixelSize);
+			grid[i][j].setPixelCoordinate((sheetPixelSize * i + 50), (sheetPixelSize * j + 25));
 			grid[i][j].setPixelBottomBorder(&defaultColorBorder);
 			grid[i][j].setPixelTopBorder(&defaultColorBorder);
 			grid[i][j].setPixelRightBorder(&defaultColorBorder);
@@ -224,6 +223,11 @@ void Sheet::sheetToSVG(const string& fileName)
 		}
 	}
 	exportToSVG << R"(</svg>)";
+	string message = "\nSave is complete. Your file is : " + fileName + ".svg";
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+		"Save",
+		message.c_str(),
+		NULL);
 	//exportToSVG << R"(</body> </html>)"; // pour basculer en html
 	exportToSVG.close();
 }
@@ -249,7 +253,7 @@ void Sheet::DrawSheet(SDL_Renderer* rendu)
 			SDL_SetRenderDrawColor(rendu,this->getPixel(i,j)->getPixelColor()->r, this->getPixel(i, j)->getPixelColor()->g, this->getPixel(i, j)->getPixelColor()->b,255);
 			SDL_RenderFillRect(rendu, grid[i][j].getPixelArea());
 			SDL_SetRenderDrawColor(rendu, this->getPixel(i,j)->getPixelBorder()[0].r, this->getPixel(i, j)->getPixelBorder()[0].g, this->getPixel(i, j)->getPixelBorder()[0].b, 255);
-			if (this->getSheetSize() >= 5) {
+			if (this->getZoomSize() >= 10) {
 				borderBox = { grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->w + 1, grid[i][j].getPixelArea()->h + 1 };
 				SDL_RenderDrawRect(rendu, &borderBox);
 			}
@@ -287,6 +291,8 @@ const int Sheet::getZoomSize() const
 {
 	return zoomSize;
 }
+
+
 
 Pixel* Sheet::getPixel(int x, int y)
 {
