@@ -16,8 +16,10 @@ using namespace std;
 #define XL 30
 #define XXL 25
 #define Giant 10
-#define WTF_BRO 5
-#define SUUUUU 2 
+#define Huge 5
+#define Titan 2 
+#define God 1
+const int zoomTable[11] = { XXS, XS, S, M, L, XL, XXL, Giant, Huge, Titan, God };
 ////////////////////////////
 
 class Palette {
@@ -57,13 +59,16 @@ class Sheet {
 private:
 	vector<vector<Pixel>> grid;
 	int sheetPixelSize = M;
+	int zoomSize = M;
 public:
 	Sheet();
 	Sheet(int size);
 	//Sheet(Sheet* sheet_, int size); a faire plus tard pour le changement de taille 
 	//void setSheetSize();
 	void setSelectedPixel(SDL_Color* color, int xSelectedPixel, int ySelectedPixel);
+	void setZoomSize(int newZoomSize);
 	const int getSheetSize() const;
+	const int getZoomSize() const;
 	//const vector<vector<Pixel>>* getGrid();
 	Pixel* getPixel(int x, int y);
 	void sheetToSVG(const string& fileName);

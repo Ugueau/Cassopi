@@ -65,4 +65,27 @@ void refreshDisplay(SDL_Renderer* rendu, Palette* currentPalette, Sheet* current
 	SDL_RenderPresent(rendu);
 }
 
+void zoomIn(Sheet* currentSheet) {
+	if (currentSheet->getZoomSize() < XXS) {
+		for (int i = 10; i >= 0 ; i--)
+		{
+			if (currentSheet->getZoomSize() < zoomTable[i]) {
+				currentSheet->setZoomSize(zoomTable[i]);
+				return;
+			}
+		}
+	}
+}
+
+void zoomOut(Sheet* currentSheet) {
+	if (currentSheet->getZoomSize() > God) {
+		for (int i = 0; i < 11; i++)
+		{
+			if (currentSheet->getZoomSize() > zoomTable[i]) {
+				currentSheet->setZoomSize(zoomTable[i]);
+				return;
+			}
+		}
+	}
+}
 

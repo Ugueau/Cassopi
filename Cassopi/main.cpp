@@ -1,7 +1,7 @@
 #include<SDL.h> //ne pas oublier
 #include<SDL_ttf.h> //ne pas oublier
 #include <iostream>
-#include "class.h"
+//#include "class.h"
 #include "color.h"
 #include "config_sdl.h"
 #include "fonction.h"
@@ -68,6 +68,20 @@ int main(int argn, char* argv[]) {
 			else if (event.key.keysym.sym == SDLK_s) {
 				currentSheet.sheetToSVG("monSVG");
 			}
+			break;
+		case SDL_MOUSEWHEEL:
+			cout << MAGENTA << "molette :";
+			if (event.wheel.y < 0) {
+				cout << "bas"<<endl;
+				zoomOut(&currentSheet);
+				cout << WHITE << "Zoom : " << currentSheet.getZoomSize() << endl;
+			}
+			else {
+				cout << "haut"<<endl;
+				zoomIn(&currentSheet);
+				cout << WHITE << "Zoom : " << currentSheet.getZoomSize() << endl;
+			}
+
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			bool click = true;

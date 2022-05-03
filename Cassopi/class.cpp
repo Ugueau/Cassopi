@@ -187,6 +187,7 @@ Sheet::Sheet()
 Sheet::Sheet(int size)
 { 
 	sheetPixelSize = size;
+	zoomSize = size;
 	grid.resize(1200 / size);
 	for (int i = 0; i < 1200 / size; i++)
 	{
@@ -243,12 +244,12 @@ void Sheet::sheetReset()
 void Sheet::DrawSheet(SDL_Renderer* rendu)
 {
 	SDL_Rect borderBox;
-	for (int i = 0; i < 1200 / sheetPixelSize; i++) {
-		for (int j = 0; j < 900 / sheetPixelSize; j++) {
+	for (int i = 0; i < 1200 / zoomSize; i++) {
+		for (int j = 0; j < 900 / zoomSize; j++) {
 			SDL_SetRenderDrawColor(rendu,this->getPixel(i,j)->getPixelColor()->r, this->getPixel(i, j)->getPixelColor()->g, this->getPixel(i, j)->getPixelColor()->b,255);
 			SDL_RenderFillRect(rendu, grid[i][j].getPixelArea());
 			SDL_SetRenderDrawColor(rendu, this->getPixel(i,j)->getPixelBorder()[0].r, this->getPixel(i, j)->getPixelBorder()[0].g, this->getPixel(i, j)->getPixelBorder()[0].b, 255);
-			if (this->getSheetSize() >= 25) {
+			if (this->getSheetSize() >= 5) {
 				borderBox = { grid[i][j].getPixelArea()->x, grid[i][j].getPixelArea()->y, grid[i][j].getPixelArea()->w + 1, grid[i][j].getPixelArea()->h + 1 };
 				SDL_RenderDrawRect(rendu, &borderBox);
 			}
@@ -272,9 +273,19 @@ void Sheet::setSelectedPixel(SDL_Color * color, int xSelectedPixel, int ySelecte
 	grid[xSelectedPixel][ySelectedPixel].setPixelLeftBorder(color);
 }
 
+void Sheet::setZoomSize(int newZoomSize)
+{
+	zoomSize = newZoomSize;
+}
+
 const int Sheet::getSheetSize() const
 {
 	return sheetPixelSize;
+}
+
+const int Sheet::getZoomSize() const
+{
+	return zoomSize;
 }
 
 Pixel* Sheet::getPixel(int x, int y)
