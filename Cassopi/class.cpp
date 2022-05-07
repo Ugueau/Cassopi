@@ -165,16 +165,16 @@ void Pixel::setPixelCoordinate(int x, int y){
 
 Sheet::Sheet()
 {
-	grid.resize(1200 / sheetPixelSize);
-	for (int i = 0; i < 1200 / sheetPixelSize; i++)
+	grid.resize(1200 / zoomSize);
+	for (int i = 0; i < 1200 / zoomSize; i++)
 	{
-		grid[i].resize(900 / sheetPixelSize);
+		grid[i].resize(900 / zoomSize);
 	}
-	for (int i = 0; i < 1200 / sheetPixelSize; i++) {
-		for (int j = 0; j < 900 / sheetPixelSize; j++) {
+	for (int i = 0; i < 1200 / zoomSize; i++) {
+		for (int j = 0; j < 900 / zoomSize; j++) {
 			grid[i][j].setPixelColor(&defaultColor);
-			grid[i][j].setPixelSize(sheetPixelSize);
-			grid[i][j].setPixelCoordinate((sheetPixelSize * i + 50), (sheetPixelSize * j + 25));
+			grid[i][j].setPixelSize(zoomSize);
+			grid[i][j].setPixelCoordinate((zoomSize * i + 50), (zoomSize * j + 25));
 			grid[i][j].setPixelBottomBorder(&defaultColorBorder);
 			grid[i][j].setPixelTopBorder(&defaultColorBorder);
 			grid[i][j].setPixelRightBorder(&defaultColorBorder);
@@ -185,7 +185,7 @@ Sheet::Sheet()
 
 Sheet::Sheet(int size)
 { 
-	sheetPixelSize = size;
+	zoomSize = size;
 	zoomSize = size;
 	grid.resize(1200 / size);
 	for (int i = 0; i < 1200 / size; i++)
@@ -218,7 +218,7 @@ void Sheet::sheetToSVG(const string& fileName)
 	for (int i = 0; i < grid.size(); i++){
 		for (int j = 0; j < grid[i].size(); j++){
 			if (this->getPixel(i, j)->getPixelColor()->a != 13) {
-				exportToSVG << R"(<rect x = ")" << sheetPixelSize * i << R"(" y = ")" << sheetPixelSize * j << R"(" width = ")" << this->getSheetSize() << R"(" height = ")" << this->getSheetSize() << R"(" style = " fill:rgb()" << (int)this->getPixel(i, j)->getPixelColor()->r << "," << (int)this->getPixel(i, j)->getPixelColor()->g << "," << (int)this->getPixel(i, j)->getPixelColor()->b << R"() " /> )" << '\n';
+				exportToSVG << R"(<rect x = ")" << zoomSize * i << R"(" y = ")" << zoomSize * j << R"(" width = ")" << this->getZoomSize() << R"(" height = ")" << this->getZoomSize() << R"(" style = " fill:rgb()" << (int)this->getPixel(i, j)->getPixelColor()->r << "," << (int)this->getPixel(i, j)->getPixelColor()->g << "," << (int)this->getPixel(i, j)->getPixelColor()->b << R"() " /> )" << '\n';
 			}
 		}
 	}
@@ -280,11 +280,6 @@ void Sheet::setSelectedPixel(SDL_Color * color, int xSelectedPixel, int ySelecte
 void Sheet::setZoomSize(int newZoomSize)
 {
 	zoomSize = newZoomSize;
-}
-
-const int Sheet::getSheetSize() const
-{
-	return sheetPixelSize;
 }
 
 const int Sheet::getZoomSize() const

@@ -49,7 +49,7 @@ SDL_Color* mouseAction(SDL_Renderer* rendu, SDL_Event* event, SDL_Color* colorCu
 				return colorCursor;
 			}
 		}
-		if (event->button.x < 1250 && event->button.x > 50 && event->button.y > 25 && event->button.y < 875) {
+		if (event->button.x < 1250 && event->button.x > 50 && event->button.y > 25 && event->button.y < 925) {
 			currentSheet->setSelectedPixel(colorCursor,((event->button.x-50) / currentSheet->getZoomSize()),((event->button.y-25) / currentSheet->getZoomSize()));
 			currentSheet->DrawPixel(rendu, ((event->button.x - 50) / currentSheet->getZoomSize()), ((event->button.y - 25) / currentSheet->getZoomSize()));
 		}

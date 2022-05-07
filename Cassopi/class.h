@@ -58,7 +58,6 @@ public :
 class Sheet {
 private:
 	vector<vector<Pixel>> grid;
-	int sheetPixelSize = God;
 	int zoomSize = God;
 public:
 	Sheet();
@@ -67,7 +66,6 @@ public:
 	//void setSheetSize();
 	void setSelectedPixel(SDL_Color* color, int xSelectedPixel, int ySelectedPixel);
 	void setZoomSize(int newZoomSize);
-	const int getSheetSize() const;
 	const int getZoomSize() const;
 	Pixel* getPixel(int x, int y);
 	void sheetToSVG(const string& fileName);
